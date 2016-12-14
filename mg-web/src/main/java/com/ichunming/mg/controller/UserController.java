@@ -37,7 +37,7 @@ public class UserController {
 	@Autowired
 	private IUserService userService;
 	
-	@RequestMapping(value = "register", method = RequestMethod.POST)
+	@RequestMapping(value = "register", method = {RequestMethod.POST, RequestMethod.GET})
 	public BaseResult register(String username, String password, String code) {
 		// 用户注册
 		logger.debug("user register...");
@@ -80,7 +80,7 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value = "login", method = RequestMethod.POST)
+	@RequestMapping(value = "login", method = {RequestMethod.POST, RequestMethod.GET})
 	public BaseResult login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
 		BaseResult result = null;
 		// 用户登入
@@ -106,6 +106,7 @@ public class UserController {
 			logger.debug("save session info...");
 			SessionInfo sessionInfo = (SessionInfo)result.getData();
 			SessionUtil.setSessionInfo(sessionInfo, request);
+			request.getSession().setAttribute("name", sessionInfo.getNickname());
 			
 			// 保存cookie
 			try {

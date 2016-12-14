@@ -24,6 +24,8 @@ public class ErrorCode {
 	public static final Long ERR_USER_PORTRAIT_EMPTY = 2008L;
 	public static final Long ERR_USER_VERIFY_CODE_INVALID = 2009L;
 	public static final Long ERR_USER_VERIFY_CODE_OVERDUE = 2010L;
+	// 文章操作错误码
+	public static final Long ERR_ARTICLE_OPTION_ERROR = 3001L;
 	
 	// 服务级错误码
 	public static final Long ERR_SVR_SMS_FAIL = 4001L;

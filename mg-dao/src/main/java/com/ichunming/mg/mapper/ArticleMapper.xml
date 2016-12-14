@@ -17,11 +17,42 @@
   <resultMap id="ResultMapWithBLOBs" type="com.ichunming.mg.model.Article" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, title, author, introduce, tag, viewCnt, likeCnt, replyCnt, createDate, updateDate, 
-    status
-  </sql>
-  <sql id="Blob_Column_List" >
-    content
-  </sql>
+    <insert id="insert" parameterType="com.ichunming.mg.model.Article">
+	insert into article (title,author,introduce,content,tag,viewcnt,likecnt,replycnt,status,createDate,updateDate)
+	values (
+	#{title,jdbcType=VARCHAR},
+	#{author,jdbcType=VARCHAR},
+    #{introduce,jdbcType=VARCHAR},
+	#{content,jdbcType=LONGVARCHAR},
+	#{tag,jdbcType=VARCHAR},
+	#{viewcnt,jdbcType=INTEGER},
+	#{likecnt,jdbcType=INTEGER},
+	#{replycnt,jdbcType=INTEGER},
+	#{status,jdbcType=INTEGER},
+	now(),
+	now())
+    </insert>
+    <select id="getArticle" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id,title,author,createDate,updateDate,content,tag,viewcnt,likecnt,replycnt from article
+    where id=#{id,jdbcType=INTEGER}
+    </select>
+    <update id="update" parameterType="com.ichunming.mg.model.Article" >
+    update article
+      set title = #{title,jdbcType=VARCHAR},
+          introduce = #{introduce,jdbcType=VARCHAR},
+          content = #{content,jdbcType=LONGVARCHAR},
+          tag = #{tag,jdbcType=VARCHAR},
+          updateDate = now()
+       where id = #{id,jdbcType=INTEGER}
+    </update>
+    <delete id="delete" parameterType="java.lang.Long" >
+       delete from article where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <select id="queryArticleList"  parameterType="com.ichunming.mg.model.Page"  resultMap="BaseResultMap" >
+		select * from article order by updateDate desc limit #{start},#{end}
+                	
+	</select>
+	<select id="queryallpage"  resultType="java.lang.String">
+		select count(1) as count from article 
+	</select>
 </mapper>
